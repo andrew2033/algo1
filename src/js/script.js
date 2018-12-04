@@ -1,93 +1,43 @@
-const container = document.getElementById("app");
-const todos = [
-  {
-    name: "come to school",
-    completed: true
-  },
-  {
-    name: "learn javascript",
-    completed: false
-  },
-  {
-    name: "learn debugger",
-    completed: false
-  }
-];
+const stylesString = `
+  background-color: #fff;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid #e8e8e8;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  clear: both;
+  cursor: pointer;
+  float: left;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  height: 42px;
+  line-height: 40px;
+  outline: 0;
+  padding-left: 18px;
+  padding-right: 30px;
+  position: relative;
+  text-align: left !important;
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  width: auto;
+`;
+var raws = stylesString.split(';');
+var result = {};
 
-const todoInput = document.createElement("input");
-todoInput.setAttribute("type", "text");
-container.appendChild(todoInput);
-todoInput.addEventListener("keypress", event => {
-  if (event.which === 13) {
-	todoList.innerHTML = '';
-    const newTodo = {
-      name: event.target.value,
-      completed: false
-	};
+for(var i = 0; i < raws.length; i++){
+	var	raw = raws[i].split(':');
+	var property = raw[0];
+	property = property.replace(/\s/g, '');
+	var value = raw[1];
+	console.log('value:', value);
+	value = value.replace(/\s/g, '');
+	result[property] = value;
 	
-    todos.push(newTodo);
-	renderTodos(todos);
-
-	
-  }
-});
-
-
-
-const todoList = document.createElement("ul");
-container.appendChild(todoList);
-
-const checkedElementFunc = (targetElem) => {
-	for (let i = 0 ; i < todos.length; i++){
-		if (todos[i] == targetElem){
-			todos[i].completed = true;
-		}
-
-	}
-
 }
+console.log(result);
 
-function renderTodos(todos) {
-  for (const todo of todos) {
-    const todoItem = document.createElement("li");
-    todoItem.textContent = todo.name;
-
-
-    if (todo.completed) {
-      todoItem.style.setProperty("text-decoration", "line-through");
-    }
-    const toggle = document.createElement("input");
-    toggle.setAttribute("type", "checkbox");
-	toggle.checked = todo.completed;
-	toggle.addEventListener("click", function(event){
-		let checkedElement=event.target.innerHTML;
-		checkedElementFunc(checkedElement);
-
-		if (event.target.checked) {
-			todoItem.style.setProperty("text-decoration", "line-through");
-				const newTodo = {
-				name: todo.name,
-				completed: true
-			  };
-			  todos.push(newTodo);
-
-
-		  } else {
-			todoItem.style.setProperty("text-decoration", "none");
-			const newTodo = {
-				name: todo.name,
-				completed: false
-			  };
-			  todos.push(newTodo);
-		  }
-	})
-	todoList.appendChild(todoItem);
-    todoItem.appendChild(toggle);
-    
-  }
-}
-
-// TODO:
-// 1. Fix bug when all items are being appended.
-// 2. Update todo completed state on checked.
-// 3. Implement filter. Hide all completed todos.
